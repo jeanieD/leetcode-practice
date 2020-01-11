@@ -1,0 +1,42 @@
+#include <iostream>
+#include <unordered_map>
+//leetcode: Contains Duplicates https://leetcode.com/problems/contains-duplicate/submissions/
+//Methodology: try to do this in as optimized way as possible, getting as close to O(1) as I think I can
+//decided to try using a map, in which the keys are the values from the original array, and the value (of k:v pair) is the index
+//runtime beats 46.5% of submissions
+
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+    //create an unordered empty map of the elements in the array
+        std::unordered_map<int, int> myMap;
+        
+    //for each element in array, 
+        for (int index = 0; index < nums.size(); index++)
+        {
+            //get the current value at index location, will serve as the key
+            int key = nums[index];
+            //check if that key is already in the map
+            std::unordered_map<int, int>::const_iterator found = myMap.find(key);
+            
+            //if found reaches end, then the element wasn't found in the map
+            if (found == myMap.end() )
+            {
+               //put the value in the map, key = nums[index] and value = index position
+                myMap.insert( {nums[index], index});
+            }
+            else
+            {
+                //the key was found
+                return true;
+            }
+            
+        }
+        
+        //not found element is never triggered, so no duplicates
+        return false;
+    
+    }
+
+};
