@@ -1,0 +1,72 @@
+//leetcode IsSameTree
+//https://leetcode.com/problems/same-tree/submissions/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+/**
+Solution 1 Attempt
+initial thinking is that it is possible to traverse the tree using preorder, create a string for each tree
+and then compare whether the 2 strings are same. traversing each tree is O(n). 
+stringcompare requires C11 string.compare(), which iterates through each string, so likely O(n + n)
+while this version works for 55 out of 57 test cases, it exceeds limits for size with large testcases
+*/
+
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        
+        //traverse the first tree with preorder traversal, which is used to copy trees O(n)
+        //preorder = root, left, right
+        //result is O(n + n), -> O(n)        
+        
+        std::string treeResultA = "";
+        std::string treeResultB = "";
+        
+        //store each number found in tree to a string in the preorder traversal
+        preorderTraversal(p, treeResultA);
+        preorderTraversal(q, treeResultB);
+        
+        //if two strings are equal, then trees are equal
+        //use string.compare() to test, 0 means the strings are same
+        int result = treeResultA.compare(treeResultB);
+
+        if (result == 0)
+        {
+            return true;  //strings are same
+        }
+        
+        return false;  //safe to return false as trees aren't equal
+        
+    }
+    
+    void preorderTraversal(TreeNode *p, std::string &treeResult) {
+        //preorder: root, left, right
+        
+        if (p == NULL)
+        {
+            //append a sentinel value of N to the string to recognize a null
+            treeResult += treeResult + 'N';
+            return;
+        }
+        
+        //first append data of root node to string, use C11 to_string to handle conversion
+        treeResult += treeResult + std::to_string(p->val);
+        
+        //print result
+        //std::cout << treeResult << std::endl;
+        
+        //recurse to the left
+        preorderTraversal(p->left, treeResult);
+        
+        //recurse to the right
+        preorderTraversal(p->right, treeResult);
+    }
+};
+
