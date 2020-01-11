@@ -3,7 +3,7 @@
 //leetcode: Contains Duplicates https://leetcode.com/problems/contains-duplicate/submissions/
 //Methodology: try to do this in as optimized way as possible, getting as close to O(1) as I think I can
 //decided to try using a map, in which the keys are the values from the original array, and the value (of k:v pair) is the index
-//runtime beats 46.5% of submissions
+//runtime beats 66% of submissions
 
 
 class Solution {
