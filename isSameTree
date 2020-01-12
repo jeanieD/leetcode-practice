@@ -70,3 +70,49 @@ public:
     }
 };
 
+/*
+Solution 2: I started thinking about how you traverse a tree and if you could just compare the two items at the same time
+So, I rewrote to check the null base case conditions
+I did refer to geeksforgeeks for help, as initially I had separated the logic of looking at whether p & q values are equal separately
+from the recursive calls to the left and right. This passed. 
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        //base cases for null
+        if (p == NULL && q == NULL)
+        {
+            return true; //they are still equal, continue
+        }
+        
+        if (p == NULL && q != NULL)
+        {
+            return false; //they are not equal
+        }
+        
+        //check if p not null yet q is null
+        if (p != NULL && q == NULL)
+        {
+            return false; //not equal
+        }
+
+        //check if the value of p and q are equal
+        if (p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right))
+        {
+            return true; //they are equal
+        }
+       
+        
+        return false; //p vals and q vals are not equal
+    }
+       
+};
