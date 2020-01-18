@@ -1,0 +1,76 @@
+/*
+leetcode problem isPalindrome
+https://leetcode.com/problems/valid-palindrome/
+determines whether a string is a palindrome, based on alphanumeric characters. An empty string is considered true.
+*/
+
+
+#include <cctype>
+
+class Solution {
+public:
+bool isPalindrome(std::string s) {
+        //determine if string is even or odd length
+        int length = s.length();
+        
+        if (length <= 1)
+        {
+          return true;
+        }
+
+        int i = 0; //i is moving from 0 to midpoint of string
+        int j = length - 1; //j is moving from end of string to midpoint
+
+        while (i != j && j > i)
+        {
+            //check if val at i is alphanum, and skip if not
+            if (isalnum(s[i]) == false)
+            {
+               i++;
+               continue;
+            }
+
+            if (isalnum(s[j]) == false)
+            {
+                j--;
+                continue;
+            }
+
+            //check if both vals alpha
+            if (isalpha(s[i]) && isalpha(s[j])) 
+            {
+                //now check if both vals same
+                if (tolower(s[i]) == tolower(s[j]))   
+                {
+                    //they are same letter, shift to next
+                    i++;
+                    j--;
+                    continue;
+                }
+                else
+                {
+                    //not same - not palindrome
+                    return false;
+                }
+            }  //if they are numeric, check if same
+            else if (isdigit(s[i]) && isdigit(s[j]))
+            {
+              if (s[i] == s[j])
+              {   //they are same
+                  i++;
+                  j--;
+                  continue;
+              }
+              else {
+                return false;
+              }
+            }
+            else {
+              //one is an alpha and one is a digit
+              return false;
+            }   
+      }
+
+      return true;       
+}
+};
