@@ -1,0 +1,150 @@
+/*
+Leetcode problem: https://leetcode.com/problems/add-two-numbers/
+My first attempt was a naive attempt, as the instructions for the problem only specified that 
+We would receive lists of two non-empty linked lists representing two non-negative integers. 
+The digits are stored in reverse order and each of their nodes contain a single digit. 
+This led me to believe that the data type would be integers.
+However, as the test cases progressed, the integer size to be added eventually exceeded 2^32 in size.
+*/
+
+//ATTEMPT 1: Naive Approach, works for nums smaller than 2^32
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+#include <stack>
+#include <cstdlib> 
+
+class Solution {
+public:
+unsigned long convertStack(std::stack<int>& myStack)
+{
+    int tempNum = 0;
+    std::string digit = "";
+    unsigned long number = 0;
+
+    while (!myStack.empty())
+    {
+        //grab the first num
+        tempNum = myStack.top();
+
+        //convert and append to the string num
+        digit += std::to_string(tempNum);
+
+        myStack.pop();
+    }
+
+    //std::cout << "new digit is: " << digit << std::endl;
+
+    //parse the string to an int
+    std::stringstream newStream(digit);
+
+    newStream >> number;
+
+    //std::cout << "new num is: " << number << std::endl;
+    return number;
+}
+
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    //traverse through L1
+    //add each number to a stack
+    //make L1 number...reverse thru and build string, convert string to int
+    //traverse through l2
+    //add each number to a stack
+    //make L2 number...
+    //sum them
+    //convert to string, reverse thru and build the list
+
+
+    unsigned int val1 = 0;
+    unsigned int val2 = 0;
+
+    std::stack<int> stack1;
+    std::stack<int> stack2;
+
+    unsigned long number1 = 0;
+    unsigned long number2 = 0;
+    int tempNum = 0;
+    unsigned long finalSum = 0;
+
+    //traverse through L1 to make L1 number
+    ListNode* temp = l1;
+
+    while (temp != NULL)
+    {
+        //add each number to a stack - so that you can then remove in order
+        stack1.push(temp->val);
+
+        //advance the node 
+        temp = temp->next;
+    }
+
+    number1 = convertStack(stack1);
+
+    //std::cout << "num1 is: " << number1 << std::endl;
+
+    temp = l2;
+
+    while (temp != NULL)
+    {
+        //add each number to a stack
+        stack2.push(temp->val);
+
+        //advance the node 
+        temp = temp->next;
+    }
+
+    number2 = convertStack(stack2);
+
+    //std::cout << "num2 is: " << number2 << std::endl;
+
+    finalSum = number1 + number2; 
+
+    //std::cout << "final sum is: " << finalSum << std::endl;
+
+    //convert the int to string
+    std::string stringSum = std::to_string(finalSum);
+
+    //std::cout << " stringSum is " << stringSum << std::endl;
+
+    //convert the char to an int
+    char digit = stringSum[stringSum.length() - 1];
+
+    //std::cout << "digit is: " << digit << std::endl;
+
+    tempNum = digit - '0'; //convert the ASCII val to the int val
+
+    //std::cout << "tempNum is: " << tempNum << std::endl;
+
+
+    //make a the head node to return, assigned to first value at end of sum
+    ListNode* myNode = new ListNode(tempNum);
+
+    //use temp as a pointer to build the list
+    temp = myNode;
+
+    int index = stringSum.length() - 2; //start from next to last num in the string
+    while (index >= 0)
+    {
+        digit = stringSum[index]; 
+
+        tempNum = digit - '0';
+        
+        //allocate the new node
+        temp->next = new ListNode(tempNum);
+
+        index--;
+        //advance the ptr
+        temp = temp->next;
+    }
+
+
+    return myNode; 
+    
+}
