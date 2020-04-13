@@ -1,0 +1,18 @@
+#create set of items based on elements of array. Set does not allow duplicates
+#if item already in set, return True
+#Solution accepted
+
+
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        newSet = set([])
+
+        for item in nums:
+            if item not in newSet:
+                newSet.add(item)
+                #print(item, " added to set")
+        
+            elif item in newSet:
+                return True
+
+        return False  
