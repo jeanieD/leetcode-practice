@@ -1,0 +1,35 @@
+#checks a string to see if it has valid matching parentheses
+def checkParens(s):
+    #create a list to serve as the stack of parens
+    stack = []
+    count = 0
+        
+    for item in s:
+        #add the item to the stack if it is an open parens
+        if item == "(":
+            stack.append(")")
+            count += 1
+        elif item == "{":
+            stack.append("}")
+            count += 1
+        elif item == "[":
+            stack.append("]")
+            count += 1
+        
+        if len(stack) == 0 and (item == ")" or item == "]" or item == "}"):
+            return False
+        
+        #check if closed parens matches top of stack if closed parens
+        #first check that there's something in stack
+        if len(stack) != 0:        
+            if item == stack[count-1]:
+                stack.pop()
+                count -= 1
+            elif (item == ")" or item == "]" or item == "}") and item != stack[count-1]:
+                return False
+            
+    #stack should be empty if every parens matched
+    if len(stack) == 0:
+       return True
+    else:
+       return False
